@@ -4,8 +4,9 @@
 
 [[ "$1" != "" ]] && BRANCH="$1" || BRANCH="$(git branch --show-current)"
 [[ "$BRANCH" == "main" ]] && TAG="latest" || TAG="$BRANCH"
-ARCHS="${ARCHS:-linux/armhf,linux/arm64,linux/amd64}"
 DEST="${DEST:-push}"
+
+[[ "${DEST}" == "push" ]] && PLATFORM="--platform ${ARCHS:-linux/armhf,linux/arm64,linux/amd64}" || true
 
 BASETARGET1=ghcr.io/kx1t
 
@@ -19,5 +20,5 @@ git checkout $BRANCH
 starttime="$(date +%s)"
 # rebuild the container
 set -x
-docker buildx build -f Dockerfile --compress --${DEST} $2 --platform $ARCHS --tag "$IMAGE1" .
+docker buildx build -f Dockerfile --compress --${DEST} $2 ${PLATFORM} --tag "$IMAGE1" .
 echo "Total build time: $(( $(date +%s) - starttime )) seconds"

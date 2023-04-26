@@ -19,6 +19,7 @@ RUN set -x && \
 # we'll put this in a separate layer for now because if it fails, we don't have to download 
 # everything again:
 RUN set -x && \
+    cd /go/src/github.com/influxdata/telegraf && \
     go run ./gen/gen.go && \
     echo "TARGETOS/TARGETARCH=${TARGETOS}/${TARGETARCH}" && \
     CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build ./cmd/telegraf

@@ -20,6 +20,9 @@ RUN set -x && \
 # everything again:
 RUN set -x && \
     cd /go/src/github.com/influxdata/telegraf && \
-    go run ./gen/gen.go && \
+    go run ./gen/gen.go
+
+ RUN set -x && \   
     echo "TARGETOS/TARGETARCH=${TARGETOS}/${TARGETARCH}" && \
+    cd /go/src/github.com/influxdata/telegraf && \
     CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build ./cmd/telegraf

@@ -1,5 +1,8 @@
 FROM golang:latest
 
+ARG TARGETARCH
+ARG TARGETOS
+
 COPY ./gen.go /code/gen.go
 
 RUN set -x && \
